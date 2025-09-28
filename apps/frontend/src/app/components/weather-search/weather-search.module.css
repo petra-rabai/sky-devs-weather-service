@@ -1,0 +1,16 @@
+.weathersearch {
+  background-color: beige;
+  padding: 1rem;
+  margin-top: 8rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 1rem;
+  box-shadow: 10px 15px 30px rgb(179 169 82 / 50%);
+  border: 2px solid black;
+}
+
+.weather-display {
+  padding: 3rem;
+  margin: 40rem 10rem 1rem;
+  border: 2px solid black;
+}
