@@ -1,0 +1,12 @@
+.main {
+  background-color: rgb(235 172 77);
+}
+
+.footer {
+  background-color: beige;
+  padding: 1rem;
+  margin: 17rem 10rem 1rem;
+  border-radius: 1rem;
+  box-shadow: 15px 20px 30px rgb(241 8 8 / 50%);
+  border: 5px solid black;
+}

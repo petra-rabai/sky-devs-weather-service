@@ -1,5 +1,3 @@
-import { LanguageCode } from "../common/language";
-
 export interface CurrentWeatherRequest {
   params: {
     cityName?: string;
@@ -11,7 +9,7 @@ export interface CurrentWeatherRequest {
     };
   };
 
-  lang?: LanguageCode;
+  lang?: string;
 }
 
 export interface CurrentWeatherResponse {

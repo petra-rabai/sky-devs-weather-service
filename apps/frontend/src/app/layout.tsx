@@ -1,4 +1,4 @@
-import styles from "@frontend/styles/main.module.css";
+import styles from "./layout.module.css";
 import React from "react";
 import Image from "next/image";
 import { Funnel_Display } from "next/font/google";

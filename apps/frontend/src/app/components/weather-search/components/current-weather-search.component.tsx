@@ -14,8 +14,8 @@ import {
   validateSearchInput,
 } from "../utils/search.helper";
 import { WeatherDisplay } from "../../weather-results/weather-result-display.component";
-import { CurrentWeatherResponse } from "@weather/contracts/current-weather.contract";
-import { fetchCurrentWeatherFromApi } from "";
+import { CurrentWeatherResponse } from "@weather/contracts";
+import { fetchCurrentWeatherFromApi } from "../../../services/current-weather.service";
 
 export const CurrentWeatherSearch: React.FC = () => {
   const [searchMode, setSearchMode] = useState<"city" | "iata" | "geo">("city");

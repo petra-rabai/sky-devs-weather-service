@@ -4,7 +4,7 @@ import { type AxiosInstance } from 'axios';
 import {
   CurrentWeatherRequest,
   CurrentWeatherResponse,
-} from '@weather/contracts/current-weather.contract';
+} from '@weather/contracts';
 
 @Injectable()
 export class CurrentWeatherService {

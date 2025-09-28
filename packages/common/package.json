@@ -1,8 +1,24 @@
 {
   "name": "@weather/common",
   "version": "1.0.0",
-  "description": "Common packages for Weather app",
-  "main": "index.ts",
-  "types": "index.ts",
-  "packageManager": "pnpm@10.10.0"
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./language": {
+      "import": "./dist/language.js",
+      "require": "./dist/language.js",
+      "types": "./dist/language.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
 }

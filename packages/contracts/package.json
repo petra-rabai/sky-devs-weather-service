@@ -2,7 +2,19 @@
   "name": "@weather/contracts",
   "version": "1.0.0",
   "description": "Api contracts for Weather app",
-  "main": "index.ts",
-  "types": "index.ts",
-  "packageManager": "pnpm@10.10.0"
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
 }

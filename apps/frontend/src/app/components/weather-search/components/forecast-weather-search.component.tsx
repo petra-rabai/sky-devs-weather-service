@@ -8,8 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
 import styles from "../weather-search.module.css";
 import React, { ReactNode, useState } from "react";
-import { ForecastWeatherResponse } from "@weather/contracts/forecast-weather.contract";
-import { fetchForecastWeatherFromApi } from "";
+import { ForecastWeatherResponse } from "@weather/contracts";
+
 import {
   validateSearchInput,
   getSearchParamsQuery,
@@ -60,8 +60,8 @@ export const ForecastWeatherSearch: React.FC = () => {
       languageCode,
     });
 
-    const forecastWeatherData = await fetchForecastWeatherFromApi(params);
-    setWeather({ data: forecastWeatherData, error: "" });
+    // const forecastWeatherData = await fetchForecastWeatherFromApi(params);
+    // setWeather({ data: forecastWeatherData, error: "" });
   };
 
   return (
