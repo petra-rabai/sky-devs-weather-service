@@ -2,6 +2,7 @@ import styles from "./layout.module.css";
 import React from "react";
 import Image from "next/image";
 import { Funnel_Display } from "next/font/google";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const funelDisplay = Funnel_Display({
   weight: "400",

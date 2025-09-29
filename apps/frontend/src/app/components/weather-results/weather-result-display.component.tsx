@@ -1,6 +1,6 @@
 import React from "react";
 import { CurrentWeatherDisplay } from "./current-weather/current-weather-result.component";
-import { CurrentWeatherResponse } from "@weather/contracts/current-weather.contract";
+import { CurrentWeatherResponse } from "@weather/contracts";
 
 interface Props {
   data: CurrentWeatherResponse;

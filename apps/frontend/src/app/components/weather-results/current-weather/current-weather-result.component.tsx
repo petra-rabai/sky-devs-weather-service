@@ -1,8 +1,9 @@
 import React from "react";
 import { LocationInfo } from "../global/location-result.component";
 import { TemperatureInfo, WeatherCondition, WindInfo } from "./components";
-import { CurrentWeatherResponse } from "@weather/contracts/current-weather.contract";
+
 import { Col, Row } from "react-bootstrap";
+import { CurrentWeatherResponse } from "@weather/contracts";
 
 interface Props {
   data: CurrentWeatherResponse;

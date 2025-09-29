@@ -1,4 +1,4 @@
-import { CurrentWeatherResponse } from "@weather/contracts/current-weather.contract";
+import { CurrentWeatherResponse } from "@weather/contracts";
 
 export async function fetchCurrentWeatherFromApi(
   params: string
