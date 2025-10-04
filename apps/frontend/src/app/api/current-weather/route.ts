@@ -1,16 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const lang = searchParams.get("lang");
-  const location = getSearchLocation(searchParams);
-  if (!location) {
-    return NextResponse.json(
-      { error: "No location provided" },
-      { status: 400 }
-    );
-  }
-
   try {
     const { searchParams } = new URL(request.url);
     const lang = searchParams.get("lang");

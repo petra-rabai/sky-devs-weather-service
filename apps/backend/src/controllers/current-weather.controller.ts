@@ -1,8 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common';
 
-import { CurrentWeatherService } from '../services/current-weather.service';
 import { isLanguageCode } from '@weather/common';
 import { CurrentWeatherResponse } from '@weather/contracts';
+import { CurrentWeatherService } from '../services/current-weather.service';
 
 @Controller()
 export class CurrentWeatherController {

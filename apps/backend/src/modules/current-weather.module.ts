@@ -1,9 +1,10 @@
 import { Module, Scope } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { CurrentWeatherController } from '../controllers/current-weather.controller';
-import { CurrentWeatherService } from '../services/current-weather.service';
-import { AxiosInstanceProvider } from '../providers/axios-instance.provider';
+
 import { join } from 'path';
+import { CurrentWeatherController } from '../controllers/current-weather.controller';
+import { AxiosInstanceProvider } from '../providers/axios-instance.provider';
+import { CurrentWeatherService } from '../services/current-weather.service';
 
 @Module({
   imports: [
