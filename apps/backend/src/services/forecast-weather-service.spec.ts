@@ -6,11 +6,14 @@ import {
   mockForecastWeatherWithAQIAndAlertsResponse,
   mockForecastWeatherWithoutAQIAndAlertsResponse,
 } from './__mocks__/forecast-weather.mock';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 describe('ForecastWeatherService - 1 day, without aqi and alerts', () => {
   let service: ForecastWeatherService;
   let mockAxios: jest.Mocked<AxiosInstance>;
   let mockForecastWeatherRequest: ForecastWeatherRequest;
+  let mockCache: jest.Mocked<Cache>;
 
   beforeEach(() => {
     const mockLanguageCode = 'hu';
@@ -18,6 +21,21 @@ describe('ForecastWeatherService - 1 day, without aqi and alerts', () => {
     mockAxios = {
       get: jest.fn(),
     } as unknown as jest.Mocked<AxiosInstance>;
+
+    mockCache = {
+      get: jest.fn(),
+      set: jest.fn(),
+      del: jest.fn(),
+      mget: jest.fn(),
+      mset: jest.fn(),
+      mdel: jest.fn(),
+      reset: jest.fn(),
+      store: {},
+      keys: jest.fn(),
+      ttl: jest.fn(),
+      wrap: jest.fn(),
+    } as unknown as jest.Mocked<Cache>;
+
     mockForecastWeatherRequest = {
       params: {
         cityName: 'Budapest',
@@ -27,7 +45,7 @@ describe('ForecastWeatherService - 1 day, without aqi and alerts', () => {
       days: '1',
       lang: mockLanguageCode,
     };
-    service = new ForecastWeatherService(mockAxios);
+    service = new ForecastWeatherService(mockAxios, mockCache);
   });
 
   it('should return weather data when API responds with 200', async () => {
