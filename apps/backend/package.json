@@ -28,6 +28,7 @@
     "@weather/common": "workspace:*",
     "@weather/contracts": "workspace:*",
     "axios": "^1.12.2",
+    "date-fns": "^4.1.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },

@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ForecastWeatherResponse } from '@weather/contracts';
-import { ForecastWeatherService } from 'src/services/forecast-weather.service';
+import { ForecastWeatherService } from '../services/forecast-weather.service';
+import { isLanguageCode } from '@weather/common';
 
 @Controller()
 export class ForecastWeatherController {
@@ -22,6 +23,8 @@ export class ForecastWeatherController {
     lang = lang || 'en';
     alerts = alerts || 'no';
     aqi = aqi || 'no';
+
+    isLanguageCode(lang);
 
     if (!(cityName || IATACode || (latitude && longitude))) {
       throw new Error(

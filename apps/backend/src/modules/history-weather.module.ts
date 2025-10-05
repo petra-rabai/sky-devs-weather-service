@@ -1,10 +1,9 @@
 import { Module, Scope } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-
 import { join } from 'path';
-import { ForecastWeatherController } from '../controllers/forecast-weather.controller';
 import { AxiosInstanceProvider } from '../providers/axios-instance.provider';
-import { ForecastWeatherService } from '../services/forecast-weather.service';
+import { HistoryWeatherService } from '../services/history-weather.service';
+import { HistoryWeatherController } from '../controllers/history-weather.controller';
 
 @Module({
   imports: [
@@ -13,16 +12,16 @@ import { ForecastWeatherService } from '../services/forecast-weather.service';
       envFilePath: join(__dirname, '../../.env'),
     }),
   ],
-  controllers: [ForecastWeatherController],
+  controllers: [HistoryWeatherController],
   providers: [
     ConfigService,
 
     {
-      provide: ForecastWeatherService,
-      useClass: ForecastWeatherService,
+      provide: HistoryWeatherService,
+      useClass: HistoryWeatherService,
       scope: Scope.REQUEST,
     },
     AxiosInstanceProvider,
   ],
 })
-export class ForecastWeatherModule {}
+export class HistoryWeatherModule {}

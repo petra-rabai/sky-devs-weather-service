@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { isLanguageCode } from '@weather/common/language';
 import { ForecastWeatherController } from './forecast-weather.controller';
-import { ForecastWeatherService } from 'src/services/forecast-weather.service';
-import { mockForecastWeatherWithoutAQIAndAlertsResponse } from 'src/services/__mocks__/forecast-weather.mock';
+import { ForecastWeatherService } from '../services/forecast-weather.service';
+import { mockForecastWeatherWithoutAQIAndAlertsResponse } from '../services/__mocks__/forecast-weather.mock';
 
 describe('ForecastWeatherController', () => {
   let controller: ForecastWeatherController;
@@ -10,7 +10,7 @@ describe('ForecastWeatherController', () => {
 
   beforeEach(async () => {
     const mockForecastWeatherService = {
-      getCurrentWeather: jest
+      getForecastWeather: jest
         .fn()
         .mockResolvedValue(mockForecastWeatherWithoutAQIAndAlertsResponse),
     };
@@ -39,7 +39,7 @@ describe('ForecastWeatherController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should return current weather data', async () => {
+  it('should return forecast weather data', async () => {
     const result = await controller.getForecastWeather(
       'Budapest',
       undefined,
@@ -91,5 +91,31 @@ describe('ForecastWeatherController', () => {
     );
 
     expect(result).toEqual(mockResponse);
+  });
+
+  it('should throw an error if 0 day value is provided', async () => {
+    await expect(
+      controller.getForecastWeather(
+        'Budapest',
+        undefined,
+        undefined,
+        undefined,
+        'en',
+        '0',
+      ),
+    ).rejects.toThrow('Days must be between 1 and 3');
+  });
+
+  it('should throw an error if 4 day value is provided', async () => {
+    await expect(
+      controller.getForecastWeather(
+        'Budapest',
+        undefined,
+        undefined,
+        undefined,
+        'en',
+        '4',
+      ),
+    ).rejects.toThrow('Days must be between 1 and 3');
   });
 });
