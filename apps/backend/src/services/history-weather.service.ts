@@ -1,3 +1,5 @@
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { type Cache } from 'cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import {
   HistoryWeatherRequest,
@@ -11,6 +13,8 @@ export class HistoryWeatherService {
   public constructor(
     @Inject('AXIOS_INSTANCE')
     private readonly axiosInstance: AxiosInstance,
+    @Inject(CACHE_MANAGER)
+    private cacheManager: Cache,
   ) {}
 
   public async getHistoryWeather(
@@ -28,6 +32,15 @@ export class HistoryWeatherService {
     } else if (geoLocation) {
       requestParams.q = `${geoLocation.latitude}${geoLocation.separator}${geoLocation.longitude}`;
     }
+    const cacheKey = JSON.stringify(historyWeatherRequest);
+
+    const cached =
+      await this.cacheManager.get<HistoryWeatherResponse>(cacheKey);
+
+    if (cached) {
+      return cached;
+    }
+
     const response = await this.axiosInstance.get<HistoryWeatherResponse>(
       '/history.json',
       {
@@ -40,6 +53,8 @@ export class HistoryWeatherService {
     if (!response.data) {
       throw new Error('No data received from weather API');
     }
+
+    await this.cacheManager.set(cacheKey, response.data, 300);
 
     return response.data;
   }
