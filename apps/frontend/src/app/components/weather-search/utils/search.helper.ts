@@ -47,9 +47,11 @@ export function getSearchParamsQuery(inputs: {
   lat: string;
   lon: string;
   languageCode: string;
-  days?: string;
+  days?: string | number;
+  alerts?: boolean;
+  aqi?: boolean;
 }): string {
-  const { searchMode, searchModeText, lat, lon, languageCode, days } = inputs;
+  const { searchMode, searchModeText, lat, lon, languageCode, days, alerts, aqi } = inputs;
   const searchParams: SearchParameters = {};
   switch (searchMode) {
     case "city":
@@ -73,11 +75,21 @@ export function getSearchParamsQuery(inputs: {
       } else if (key !== "lon" && key !== "lat") {
         query.set(key, value.toString());
       }
-      if (key === "days" && days) {
-        query.set("days", days);
-      }
     }
   });
+
+  // Add optional parameters
+  if (days != null && String(days).trim() !== "") {
+    query.set("days", String(days));
+  }
+  
+  if (alerts === true) {
+    query.set("alerts", "yes");
+  }
+  
+  if (aqi === true) {
+    query.set("aqi", "yes");
+  }
 
   return query.toString();
 }

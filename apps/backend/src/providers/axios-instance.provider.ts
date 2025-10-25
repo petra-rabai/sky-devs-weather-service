@@ -10,7 +10,7 @@ export const AxiosInstanceProvider: Provider = {
     const apiKey = configService.get<string>('WEATHER_API_KEY');
     return axios.create({
       baseURL,
-      headers: {
+      params: {
         key: apiKey,
       },
     });

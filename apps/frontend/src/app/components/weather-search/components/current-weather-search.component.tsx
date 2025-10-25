@@ -226,7 +226,7 @@ export const CurrentWeatherSearch: React.FC = () => {
               <FontAwesomeIcon icon={faDashboard} className="me-2" />
               Weather Data
             </h5>
-            <WeatherDisplay data={weather.data} />
+            <WeatherDisplay data={{ currentWeather: weather.data }} />
           </div>
         )}
         {weather.error && (

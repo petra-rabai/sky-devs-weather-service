@@ -1,14 +1,24 @@
 import React from "react";
-import { CurrentWeatherDisplay } from "./current-weather/current-weather-result.component";
-import { CurrentWeatherResponse } from "@weather/contracts";
+import { CurrentWeatherResultDisplay } from "./current-weather/current-weather-result.component";
+import {
+  CurrentWeatherResponse,
+  ForecastWeatherResponse,
+} from "@weather/contracts";
 
 interface Props {
-  data: CurrentWeatherResponse;
+  data: {
+    currentWeather?: CurrentWeatherResponse;
+    forecastWeather?: ForecastWeatherResponse;
+  };
 }
 
 export const WeatherDisplay: React.FC<Props> = ({ data }) => (
   <div className="m-2">
-    {data && <CurrentWeatherDisplay data={data} />}
-    {/* Add more components for other weather types here */}
+    {data && data.currentWeather && (
+      <CurrentWeatherResultDisplay data={data.currentWeather} />
+    )}
+    {data && data.forecastWeather && (
+      <CurrentWeatherResultDisplay data={data.forecastWeather} />
+    )}
   </div>
 );

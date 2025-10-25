@@ -3,19 +3,21 @@ import {
   faGlobe,
   faTriangleExclamation,
   faDashboard,
+  faBell,
+  faSmog,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Col, Form, Row, Container } from "react-bootstrap";
-import styles from "../weather-search.module.css";
 import React, { ReactNode, useState } from "react";
 import { ForecastWeatherResponse } from "@weather/contracts";
 
 import {
   validateSearchInput,
   getSearchParamsQuery,
-} from "../utils/search.helper";
-import { WeatherDisplay } from "../../weather-results/weather-result-display.component";
-import { fetchForecastWeatherFromApi } from "../../../services/forecast-weather.service";
+} from "../../utils/search.helper";
+import { WeatherDisplay } from "../../../weather-results/weather-result-display.component";
+import { fetchForecastWeatherFromApi } from "../../../../services/forecast-weather.service";
+import { ForecastWeatherSettings } from "./components/forecast-weather-settings.component";
 
 export const ForecastWeatherSearch: React.FC = () => {
   const [searchMode, setSearchMode] = useState<"city" | "iata" | "geo">("city");
@@ -57,16 +59,31 @@ export const ForecastWeatherSearch: React.FC = () => {
       searchModeText,
       lat,
       lon,
-      days,
+      days: days || "1",
       languageCode,
+      alerts: switcherStates["forecast-weather-alerts"] === "on",
+      aqi: switcherStates["forecast-weather-aqi"] === "on",
     });
 
     const forecastWeatherData = await fetchForecastWeatherFromApi(params);
     setWeather({ data: forecastWeatherData, error: "" });
   };
 
+  const [switcherStates, setSwitcherStates] = useState<
+    Record<string, "on" | "off">
+  >({
+    "forecast-weather-aqi": "off",
+    "forecast-weather-alerts": "off",
+  });
+  const handleSwitcherChange = (name: string, value: "on" | "off") => {
+    setSwitcherStates((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   return (
-    <div id="forecast-weather" className={`${styles.weathersearch}`}>
+    <div id="forecast-weather" className="m-2">
       <Card>
         <Card.Header className="text-center">
           <FontAwesomeIcon className="me-2" icon={faCloud} size="xs" />
@@ -104,6 +121,43 @@ export const ForecastWeatherSearch: React.FC = () => {
           className="mb-2"
         >
           <Form.Group>
+            <div className="my-3">
+              <h6 className="mb-3">Settings</h6>
+              <Row className="mb-2">
+                <ForecastWeatherSettings
+                  settingsType={{
+                    type: "alerts",
+                    unit: switcherStates["forecast-weather-alerts"],
+                    id: "forecast-weather-alerts-settings",
+                    dataTest: "forecast-weather-alerts-settings",
+                    name: "forecast-weather-alerts",
+                    title: "Weather Alerts",
+                    icon: faBell,
+                    label:
+                      switcherStates["forecast-weather-alerts"] === "on"
+                        ? "On"
+                        : "Off",
+                  }}
+                  onSettingChange={handleSwitcherChange}
+                />
+                <ForecastWeatherSettings
+                  settingsType={{
+                    type: "aqi",
+                    unit: switcherStates["forecast-weather-aqi"],
+                    id: "forecast-weather-aqi-settings",
+                    dataTest: "forecast-weather-aqi-settings",
+                    name: "forecast-weather-aqi",
+                    title: "Air Quality Index",
+                    icon: faSmog,
+                    label:
+                      switcherStates["forecast-weather-aqi"] === "on"
+                        ? "On"
+                        : "Off",
+                  }}
+                  onSettingChange={handleSwitcherChange}
+                />
+              </Row>
+            </div>
             <Row className="g-2 align-items-center">
               <Col xs={12} md={6}>
                 <Form.Label>Weather Location</Form.Label>
@@ -201,6 +255,7 @@ export const ForecastWeatherSearch: React.FC = () => {
                   <option value="3">3 Days</option>
                 </Form.Select>
               </Col>
+              <Col></Col>
               <Col xs={12} md={2}>
                 <Button
                   type="submit"
@@ -234,6 +289,7 @@ export const ForecastWeatherSearch: React.FC = () => {
           </Form.Group>
         </Form>
       </div>
+
       <div>
         {weather.data && (
           <div id="weather-display" className="weather-display">
@@ -242,7 +298,7 @@ export const ForecastWeatherSearch: React.FC = () => {
               <FontAwesomeIcon icon={faDashboard} className="me-2" />
               Weather Data
             </h5>
-            <WeatherDisplay data={weather.data} />
+            <WeatherDisplay data={{ forecastWeather: weather.data }} />
           </div>
         )}
         {weather.error && (

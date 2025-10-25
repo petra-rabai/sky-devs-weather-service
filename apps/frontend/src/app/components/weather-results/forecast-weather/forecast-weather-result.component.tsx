@@ -1,17 +1,20 @@
-import React from "react";
-import { LocationInfo } from "../global/location-result.component";
-import { TemperatureInfo, WeatherCondition, WindInfo } from "./components";
-
+import { ForecastWeatherResponse } from "packages/contracts/dist";
 import { Col, Row } from "react-bootstrap";
-import { CurrentWeatherResponse } from "@weather/contracts";
+import {
+  WeatherCondition,
+  TemperatureInfo,
+  WindInfo,
+} from "../current-weather/components";
+import { LocationInfo } from "../global/location-result.component";
+import { AlertsResult } from "./components/alerts-result.component";
 
 interface Props {
-  data: CurrentWeatherResponse;
+  data: ForecastWeatherResponse;
 }
 
-export const CurrentWeatherResultDisplay: React.FC<Props> = ({ data }) => (
+export const ForecastWeatherResultDisplay: React.FC<Props> = ({ data }) => (
   <>
-    {data && data.current && (
+    {data && data.location && data.alerts && (
       <div>
         <Row>
           <Col xs={12} md={6}>
@@ -20,6 +23,7 @@ export const CurrentWeatherResultDisplay: React.FC<Props> = ({ data }) => (
           <Col xs={12} md={6}>
             {" "}
             <WeatherCondition condition={data.current.condition} />
+            <AlertsResult alert={data.alerts!.alert!} />
           </Col>
           <Col xs={12} md={6}>
             <TemperatureInfo {...data.current} />
