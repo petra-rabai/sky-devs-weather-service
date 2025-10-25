@@ -15,6 +15,7 @@ import {
   getSearchParamsQuery,
 } from "../utils/search.helper";
 import { WeatherDisplay } from "../../weather-results/weather-result-display.component";
+import { fetchForecastWeatherFromApi } from "../../../services/forecast-weather.service";
 
 export const ForecastWeatherSearch: React.FC = () => {
   const [searchMode, setSearchMode] = useState<"city" | "iata" | "geo">("city");
@@ -60,8 +61,8 @@ export const ForecastWeatherSearch: React.FC = () => {
       languageCode,
     });
 
-    // const forecastWeatherData = await fetchForecastWeatherFromApi(params);
-    // setWeather({ data: forecastWeatherData, error: "" });
+    const forecastWeatherData = await fetchForecastWeatherFromApi(params);
+    setWeather({ data: forecastWeatherData, error: "" });
   };
 
   return (

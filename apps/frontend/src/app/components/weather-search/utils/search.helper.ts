@@ -47,8 +47,9 @@ export function getSearchParamsQuery(inputs: {
   lat: string;
   lon: string;
   languageCode: string;
+  days?: string;
 }): string {
-  const { searchMode, searchModeText, lat, lon, languageCode } = inputs;
+  const { searchMode, searchModeText, lat, lon, languageCode, days } = inputs;
   const searchParams: SearchParameters = {};
   switch (searchMode) {
     case "city":
@@ -71,6 +72,9 @@ export function getSearchParamsQuery(inputs: {
         query.set("geo", `${searchParams.lat},${searchParams.lon}`);
       } else if (key !== "lon" && key !== "lat") {
         query.set(key, value.toString());
+      }
+      if (key === "days" && days) {
+        query.set("days", days);
       }
     }
   });
