@@ -4,6 +4,7 @@ import {
   CurrentWeatherResponse,
   ForecastWeatherResponse,
 } from "@weather/contracts";
+import { ForecastWeatherResultDisplay } from "./forecast-weather/forecast-weather-result.component";
 
 interface Props {
   data: {
@@ -18,7 +19,7 @@ export const WeatherDisplay: React.FC<Props> = ({ data }) => (
       <CurrentWeatherResultDisplay data={data.currentWeather} />
     )}
     {data && data.forecastWeather && (
-      <CurrentWeatherResultDisplay data={data.forecastWeather} />
+      <ForecastWeatherResultDisplay data={data.forecastWeather} />
     )}
   </div>
 );

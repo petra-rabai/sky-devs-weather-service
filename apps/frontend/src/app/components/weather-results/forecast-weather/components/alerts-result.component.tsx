@@ -4,123 +4,121 @@ import { Table, Badge } from "react-bootstrap";
 import { format } from "date-fns";
 
 export type Alert = {
+  headline: string;
+  msgtype: string;
+  severity: string;
+  urgency: string;
   areas: string;
   category: string;
   certainty: string;
-  desc: string;
-  effective: string;
   event: string;
-  expires: string;
-  headline: string;
-  identifier: string;
-  instruction: string;
-  msgtype: string;
   note: string;
-  severity: "Minor" | "Moderate" | "Severe" | "Extreme";
-  urgency: "Immediate" | "Expected" | "Future" | "Past";
+  effective: string;
+  expires: string;
+  desc: string;
+  instruction: string;
 };
-
 interface Props {
-  alert: Alert;
+  alerts: Alert[];
 }
 
-export const AlertsResult: React.FC<Props> = ({ alert }) => (
-  <div className="alert-result my-4">
-    <h5 className="mb-3">
-      <FontAwesomeIcon
-        icon={faTriangleExclamation}
-        className="me-2 text-warning"
-      />
-      Weather Alert
-    </h5>
-    <Table responsive striped hover className="align-middle">
-      <tbody>
-        <tr>
-          <th className="w-25">Event</th>
-          <td>{alert.event}</td>
-        </tr>
-        <tr>
-          <th>Headline</th>
-          <td>{alert.headline}</td>
-        </tr>
-        <tr>
-          <th>Description</th>
-          <td>{alert.desc}</td>
-        </tr>
-        <tr>
-          <th>Instructions</th>
-          <td>{alert.instruction}</td>
-        </tr>
-        <tr>
-          <th>Area</th>
-          <td>{alert.areas}</td>
-        </tr>
-        <tr>
-          <th>Status</th>
-          <td>
-            <div className="d-flex gap-2 align-items-center flex-wrap">
-              <Badge
-                bg={
-                  alert.severity === "Minor"
-                    ? "success"
-                    : alert.severity === "Moderate"
-                    ? "warning"
-                    : alert.severity === "Severe"
-                    ? "danger"
-                    : "dark"
-                }
-              >
-                Severity: {alert.severity}
-              </Badge>
-              <Badge
-                bg={
-                  alert.urgency === "Immediate"
-                    ? "danger"
-                    : alert.urgency === "Expected"
-                    ? "warning"
-                    : alert.urgency === "Future"
-                    ? "info"
-                    : "secondary"
-                }
-              >
-                Urgency: {alert.urgency}
-              </Badge>
-              <Badge bg="info">Certainty: {alert.certainty}</Badge>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>Time Period</th>
-          <td>
-            <div>
-              <strong>From:</strong> {format(new Date(alert.effective), "PPpp")}
-            </div>
-            <div>
-              <strong>Until:</strong> {format(new Date(alert.expires), "PPpp")}
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>Category</th>
-          <td>{alert.category}</td>
-        </tr>
-        <tr>
-          <th>Message Type</th>
-          <td>{alert.msgtype}</td>
-        </tr>
-        {alert.note && (
-          <tr>
-            <th>Additional Notes</th>
-            <td>{alert.note}</td>
-          </tr>
-        )}
-        <tr>
-          <th>Alert ID</th>
-          <td>
-            <code>{alert.identifier}</code>
-          </td>
-        </tr>
-      </tbody>
-    </Table>
-  </div>
-);
+export const AlertsResult: React.FC<Props> = ({ alerts }) => {
+  if (!alerts || alerts.length === 0) return null;
+
+  return (
+    <div className="alert-result my-4">
+      <h5 className="mb-3">
+        <FontAwesomeIcon
+          icon={faTriangleExclamation}
+          className="me-2 text-warning"
+        />
+        Weather Alert{alerts.length > 1 ? "s" : ""}
+      </h5>
+      {alerts.map((a, idx) => (
+        <Table key={idx} responsive striped hover className="align-middle mb-4">
+          <tbody>
+            <tr>
+              <th className="w-25">Event</th>
+              <td>{a.event}</td>
+            </tr>
+            <tr>
+              <th>Headline</th>
+              <td>{a.headline}</td>
+            </tr>
+            <tr>
+              <th>Description</th>
+              <td>{a.desc}</td>
+            </tr>
+            <tr>
+              <th>Instructions</th>
+              <td>{a.instruction}</td>
+            </tr>
+            <tr>
+              <th>Area</th>
+              <td>{a.areas}</td>
+            </tr>
+            <tr>
+              <th>Status</th>
+              <td>
+                <div className="d-flex gap-2 align-items-center flex-wrap">
+                  <Badge
+                    bg={
+                      a.severity === "Minor"
+                        ? "success"
+                        : a.severity === "Moderate"
+                        ? "warning"
+                        : a.severity === "Severe"
+                        ? "danger"
+                        : "dark"
+                    }
+                  >
+                    Severity: {a.severity}
+                  </Badge>
+                  <Badge
+                    bg={
+                      a.urgency === "Immediate"
+                        ? "danger"
+                        : a.urgency === "Expected"
+                        ? "warning"
+                        : a.urgency === "Future"
+                        ? "info"
+                        : "secondary"
+                    }
+                  >
+                    Urgency: {a.urgency}
+                  </Badge>
+                  <Badge bg="info">Certainty: {a.certainty}</Badge>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>Time Period</th>
+              <td>
+                <div>
+                  <strong>From:</strong> {format(new Date(a.effective), "PPpp")}
+                </div>
+                <div>
+                  <strong>Until:</strong> {format(new Date(a.expires), "PPpp")}
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th>Category</th>
+              <td>{a.category}</td>
+            </tr>
+            <tr>
+              <th>Message Type</th>
+              <td>{a.msgtype}</td>
+            </tr>
+            {a.note && (
+              <tr>
+                <th>Additional Notes</th>
+                <td>{a.note}</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      ))}
+    </div>
+  );
+};

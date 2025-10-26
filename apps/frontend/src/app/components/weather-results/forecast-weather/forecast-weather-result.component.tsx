@@ -1,12 +1,8 @@
 import { ForecastWeatherResponse } from "packages/contracts/dist";
 import { Col, Row } from "react-bootstrap";
-import {
-  WeatherCondition,
-  TemperatureInfo,
-  WindInfo,
-} from "../current-weather/components";
 import { LocationInfo } from "../global/location-result.component";
 import { AlertsResult } from "./components/alerts-result.component";
+import { HoursResult } from "./components/hours-result.component";
 
 interface Props {
   data: ForecastWeatherResponse;
@@ -14,7 +10,7 @@ interface Props {
 
 export const ForecastWeatherResultDisplay: React.FC<Props> = ({ data }) => (
   <>
-    {data && data.location && data.alerts && (
+    {data && data.location && (
       <div>
         <Row>
           <Col xs={12} md={6}>
@@ -22,15 +18,14 @@ export const ForecastWeatherResultDisplay: React.FC<Props> = ({ data }) => (
           </Col>
           <Col xs={12} md={6}>
             {" "}
-            <WeatherCondition condition={data.current.condition} />
-            <AlertsResult alert={data.alerts!.alert!} />
+            {data.alerts && <AlertsResult alerts={data.alerts.alert} />}
           </Col>
           <Col xs={12} md={6}>
-            <TemperatureInfo {...data.current} />
+            {data.forecast.forecastday[0].hour && (
+              <HoursResult hours={data.forecast.forecastday[0].hour} />
+            )}
           </Col>
-          <Col xs={12} md={6}>
-            <WindInfo {...data.current} />
-          </Col>
+          <Col xs={12} md={6}></Col>
         </Row>
       </div>
     )}
