@@ -6,6 +6,7 @@ import { mockHistoryWeatherResponse } from './__mocks__/history-weather.mock';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { addDays, format } from 'date-fns';
 
 describe('HistoryWeatherService - within date range', () => {
   let service: HistoryWeatherService;
@@ -34,13 +35,15 @@ describe('HistoryWeatherService - within date range', () => {
       wrap: jest.fn(),
     } as unknown as jest.Mocked<Cache>;
 
+    const futureDate = format(addDays(new Date(), -7), 'yyyy-MM-dd');
+
     mockHistoryWeatherRequest = {
       params: {
         cityName: 'Budapest',
         IATACode: undefined,
         geoLocation: undefined,
       },
-      date: '2025-09-30',
+      date: futureDate,
       lang: mockLanguageCode,
     };
 

@@ -3,12 +3,12 @@ import { isLanguageCode } from '@weather/common/language';
 import { HistoryWeatherController } from './history-weather.controller';
 import { HistoryWeatherService } from '../services/history-weather.service';
 import { mockHistoryWeatherResponse } from '../services/__mocks__/history-weather.mock';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 
 describe('HistoryWeatherController', () => {
   let controller: HistoryWeatherController;
   let service: HistoryWeatherService;
-
+  const futureDate = format(addDays(new Date(), -7), 'yyyy-MM-dd');
   beforeEach(async () => {
     const mockHistoryWeatherService = {
       getHistoryWeather: jest
@@ -47,7 +47,7 @@ describe('HistoryWeatherController', () => {
       undefined,
       undefined,
       'en',
-      '2025-09-30',
+      futureDate,
     );
 
     expect(service['getHistoryWeather']).toHaveBeenCalledTimes(1);
@@ -68,9 +68,22 @@ describe('HistoryWeatherController', () => {
         undefined,
         undefined,
         'invalid',
-        '2025-09-30',
+        futureDate,
       ),
     ).rejects.toThrow('Invalid language code: invalid');
+  });
+
+  it('should throw an error if date is not provided', async () => {
+    await expect(
+      controller.getHistoryWeather(
+        'Budapest',
+        undefined,
+        undefined,
+        undefined,
+        'en',
+        undefined,
+      ),
+    ).rejects.toThrow('Date is required');
   });
 
   it('should construct geoLocation if latitude and longitude are provided', async () => {
@@ -88,7 +101,7 @@ describe('HistoryWeatherController', () => {
       latitude,
       longitude,
       lang,
-      '2025-09-30',
+      futureDate,
     );
 
     expect(result).toEqual(mockResponse);
